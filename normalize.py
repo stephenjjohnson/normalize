@@ -79,33 +79,34 @@ def save_my_norm_data(my_file, my_norm_data):
 
     
     
+if __name__ == '__main__':
 
-# Get some data to normalize
-# my_data = (0,1,2,3,4,5,6,7,8,9,10,11)
-my_data = read_my_data(get_file())
-print 'My data:', my_data, '\n'
+    # Get some data to normalize
+    # my_data = (0,1,2,3,4,5,6,7,8,9,10,11)
+    my_data = read_my_data(get_file())
+    print 'My data:', my_data, '\n'
 
-# Get the smallest and largest data to use in the normalization
-my_default = str(min(my_data))
-floor = get_parameter('What is the smallest value to consider? [Enter to use smallest datum]:', my_default, 'float')
+    # Get the smallest and largest data to use in the normalization
+    my_default = str(min(my_data))
+    floor = get_parameter('What is the smallest value to consider? [Enter to use smallest datum]:', my_default, 'float')
 
-my_default = str(max(my_data))
-ceiling = get_parameter('What is the largest value to consider? [Enter to use largest datum]:', my_default, 'float')
+    my_default = str(max(my_data))
+    ceiling = get_parameter('What is the largest value to consider? [Enter to use largest datum]:', my_default, 'float')
 
-print 'Data range to normalize:', floor, '-', ceiling, '\n'
+    print 'Data range to normalize:', floor, '-', ceiling, '\n'
 
 
-# Get the smallest and largest normalized values
-min = get_parameter('What is the smallest value to normalize to? [Enter to use 0]:', '0', 'float')
-max = get_parameter('What is the largest value to normalize to? [Enter to use 1]:', '1', 'float')
-print 'Normalized range: ', min, '-', str(max), '\n'
+    # Get the smallest and largest normalized values
+    min = get_parameter('What is the smallest value to normalize to? [Enter to use 0]:', '0', 'float')
+    max = get_parameter('What is the largest value to normalize to? [Enter to use 1]:', '1', 'float')
+    print 'Normalized range: ', min, '-', str(max), '\n'
 
-# Normalize the data using the supplied parameters
-my_norm_data = normalize(my_data, floor, ceiling, min, max)
-print 'Normalized data:', my_norm_data
+    # Normalize the data using the supplied parameters
+    my_norm_data = normalize(my_data, floor, ceiling, min, max)
+    print 'Normalized data:', my_norm_data
 
-# Save in a file
-save_my_norm_data('', my_norm_data)
+    # Save in a file
+    save_my_norm_data('', my_norm_data)
 
     
  
