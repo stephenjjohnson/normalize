@@ -1,6 +1,43 @@
-#  Normalize a dataset
+'''
+A Python program to normalize a dataset.
+Accepts a comma separated list of numbers then asks for the lowest and 
+highest values to consider, and the minimum and maximum values to normalize to.
+Hitting ENTER at any of the prompts after the data have been loaded will set a sensible default value.
+'''
 
-from __future__ import division
+# from __future__ import division
+
+def main():
+    # Get some data to normalize
+    # my_data = (0,1,2,3,4,5,6,7,8,9,10,11)
+    my_data = read_my_data(get_file())
+    print 'My data:', my_data, '\n'
+
+    # Get the smallest and largest data to use in the normalization
+    # Smallest
+    my_default = str(min(my_data))
+    floor = get_parameter('What is the smallest value to consider? [Enter to use smallest datum]:', my_default, 'float')
+    # Largest
+    my_default = str(max(my_data))
+    ceiling = get_parameter('What is the largest value to consider? [Enter to use largest datum]:', my_default, 'float')
+    print 'Data range to normalize:', floor, '-', ceiling, '\n'
+
+
+    # Get the smallest and largest normalized values
+    minimum = get_parameter('What is the smallest value to normalize to? [Enter to use 0]:', '0', 'float')
+    maximum = get_parameter('What is the largest value to normalize to? [Enter to use 1]:', '1', 'float')
+    print 'Normalized range: ', minimum, '-', str(maximum), '\n'
+    
+    # Should we print the data out?
+    verbose_flag = get_parameter('Do you want to see the data while saving? (y/N) ', False, 'bool')
+
+    # Normalize the data using the supplied parameters
+    my_norm_data = normalize(my_data, floor, ceiling, minimum, maximum)
+#    print 'Normalized data:', my_norm_data
+
+    # Save in a file
+    save_my_data('normalized', my_norm_data, verbose_flag)  
+
 
 def get_file() :
     '''
@@ -33,7 +70,7 @@ def read_my_data(fhandle):
 def get_parameter(prompt, val_default, val_type='str'):
     '''
     Needs prompt, val_default and val_type as strings.
-    val_type can be 'str', 'int' or 'float'
+    val_type can be 'str', 'int', 'bool' or 'float'
     Returns val converted to val_type
     '''
     while True:
@@ -45,6 +82,11 @@ def get_parameter(prompt, val_default, val_type='str'):
                 val = float(val)
             elif val_type == 'int' :
                 val = int(val)
+            elif val_type == 'bool' :
+                if val in ['Y','Yes','y','yes','true','True']:
+                    val = True
+                else:
+                    val = False
             return val
         except:
             print 'Wrong type of data entered.'
@@ -63,51 +105,29 @@ def normalize(my_data, floor, ceiling, min_norm=0, max_norm=1):
     return(my_list)
     
 
-def save_my_norm_data(my_file, my_norm_data):
+def save_my_data(my_file, my_data, verbose_flag = False):
     '''
     Save in a csv file
     '''
     print 'Saving data...'
-    my_output_file = my_file + '_normalized.csv'
+    my_output_file = my_file + '_out.csv'
     output_handle = open(my_output_file, 'w')
-    output_handle.write('Data' + ',' + 'Normalized\n')
-    for datum, norm_datum in my_norm_data[:]:
-        next_line = str(datum) + ',' + str(norm_datum) + '\n'
+    output_handle.write('Data' + ',' + 'Transformed Data\n')
+    for datum, output_datum in my_data[:]:
+        next_line = str(datum) + ',' + str(output_datum) + '\n'
+        if verbose_flag:
+            print next_line.rstrip()
         output_handle.write(next_line)
     output_handle.close()
     print 'Done.'
 
-    
+
+
     
 if __name__ == '__main__':
+    main()
 
-    # Get some data to normalize
-    # my_data = (0,1,2,3,4,5,6,7,8,9,10,11)
-    my_data = read_my_data(get_file())
-    print 'My data:', my_data, '\n'
-
-    # Get the smallest and largest data to use in the normalization
-    my_default = str(min(my_data))
-    floor = get_parameter('What is the smallest value to consider? [Enter to use smallest datum]:', my_default, 'float')
-
-    my_default = str(max(my_data))
-    ceiling = get_parameter('What is the largest value to consider? [Enter to use largest datum]:', my_default, 'float')
-
-    print 'Data range to normalize:', floor, '-', ceiling, '\n'
-
-
-    # Get the smallest and largest normalized values
-    min = get_parameter('What is the smallest value to normalize to? [Enter to use 0]:', '0', 'float')
-    max = get_parameter('What is the largest value to normalize to? [Enter to use 1]:', '1', 'float')
-    print 'Normalized range: ', min, '-', str(max), '\n'
-
-    # Normalize the data using the supplied parameters
-    my_norm_data = normalize(my_data, floor, ceiling, min, max)
-    print 'Normalized data:', my_norm_data
-
-    # Save in a file
-    save_my_norm_data('', my_norm_data)
-
+    
     
  
 
