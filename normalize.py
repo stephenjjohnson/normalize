@@ -16,23 +16,23 @@ def main():
     # Get the smallest and largest data to use in the normalization
     # Smallest
     my_default = str(min(my_data))
-    floor = get_parameter('What is the smallest value to consider? [Enter to use smallest datum]:', my_default, 'float')
+    minData = get_parameter('What is the smallest value to consider? [Enter to use smallest datum]:', my_default, 'float')
     # Largest
     my_default = str(max(my_data))
-    ceiling = get_parameter('What is the largest value to consider? [Enter to use largest datum]:', my_default, 'float')
-    print 'Data range to normalize:', floor, '-', ceiling, '\n'
+    maxData = get_parameter('What is the largest value to consider? [Enter to use largest datum]:', my_default, 'float')
+    print 'Data range to normalize:', minData, '-', maxData, '\n'
 
 
     # Get the smallest and largest normalized values
-    minimum = get_parameter('What is the smallest value to normalize to? [Enter to use 0]:', '0', 'float')
-    maximum = get_parameter('What is the largest value to normalize to? [Enter to use 1]:', '1', 'float')
-    print 'Normalized range: ', minimum, '-', str(maximum), '\n'
+    minNorm = get_parameter('What is the smallest value to normalize to? [Enter to use 0]:', '0', 'float')
+    maxNorm = get_parameter('What is the largest value to normalize to? [Enter to use 1]:', '1', 'float')
+    print 'Normalized range: ', minNorm, '-', str(maxNorm), '\n'
     
     # Should we print the data out?
     verbose_flag = get_parameter('Do you want to see the data while saving? (y/N) ', False, 'bool')
 
     # Normalize the data using the supplied parameters
-    my_norm_data = normalize(my_data, floor, ceiling, minimum, maximum)
+    my_norm_data = normalize(my_data, minData, maxData, minNorm, maxNorm)
 #    print 'Normalized data:', my_norm_data
 
     # Save in a file
@@ -93,14 +93,14 @@ def get_parameter(prompt, val_default, val_type='str'):
             continue
     
     
-def normalize(my_data, floor, ceiling, min_norm=0, max_norm=1):
+def normalize(my_data, minData, maxData, min_norm=0, max_norm=1):
     '''
-    Normalizes data from floor-ceiling to the range min_norm-max-norm
+    Normalizes data from minData-maxData to the range min_norm-max-norm
     Builds a list of (datum, norm_datum) tuples
     '''
     my_list = list()
     for datum in my_data:
-        norm_datum = (min_norm + (datum - floor) * (max_norm - min_norm)) / (ceiling - floor)
+        norm_datum = (min_norm + (datum - minData) * (max_norm - min_norm)) / (maxData - minData)
         my_list.append((datum, norm_datum))
     return(my_list)
     
