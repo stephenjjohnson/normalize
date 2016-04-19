@@ -1,5 +1,3 @@
 # normalize
 
-Python script to normalize data (defaults to 0-1)
-
-*NOTE* Currently gives the wrong answer if lower normalization boundary is less than zero. Needs work!
+Python script to normalize a vector. Sript defaults to mapping full range of the data to 0-1 but will accept user input for lower and upper bounds of both data and normalized range.
