@@ -20,13 +20,13 @@ def main():
     # Largest
     my_default = str(max(myData))
     maxData = get_parameter('What is the largest value to consider? [Enter to use largest datum]:', my_default, 'float')
-    print 'Data range to normalize:', minData, '-', maxData, '\n'
+    print 'Data range to normalize:', minData, ' to ', maxData, '\n'
 
 
     # Get the smallest and largest normalized values
-    minNorm = get_parameter('What is the smallest value to normalize to? [Enter to use 0]:', '0', 'float')
-    maxNorm = get_parameter('What is the largest value to normalize to? [Enter to use 1]:', '1', 'float')
-    print 'Normalized range: ', minNorm, '-', str(maxNorm), '\n'
+    minNorm = get_parameter('What is the value to normalize the smallest datum to? [Enter to use 0]:', '0', 'float')
+    maxNorm = get_parameter('What is the value to normalize the largest datum to? [Enter to use 1]:', '1', 'float')
+    print 'Normalized range: ', minNorm, ' to ', str(maxNorm), '\n'
     
     # Should we print the data out?
     verboseFlag = get_parameter('Do you want to see the data while saving? (y/N) ', False, 'bool')
@@ -100,7 +100,7 @@ def normalize(myData, minData, maxData, minNorm=0, maxNorm=1):
     '''
     my_list = list()
     for datum in myData:
-        norm_datum = (minNorm + (datum - minData) * (maxNorm - minNorm)) / (maxData - minData)
+        norm_datum = minNorm + ((datum - minData) * (maxNorm - minNorm) / (maxData - minData))
         my_list.append((datum, norm_datum))
     return(my_list)
 
